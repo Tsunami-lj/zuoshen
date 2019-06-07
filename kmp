@@ -1,0 +1,31 @@
+
+void kmp(srring text , string pattern) {
+    int i = 0, j = 0;
+    while(i < text.length() && j < pattern.length()) {
+        if(text[i] == pattern[j])
+            i++, j++;
+        else if(next[j] == -1){
+            i++;
+        } else {
+            j = next[j];
+        }
+    }
+}
+
+void getNext(const string & pattern) {
+    int cb = 0;
+    next[0]= -1;
+    next[1] = 0;
+    int i = 2;
+
+    while(i <pattern.length()) {
+        if (pattern[i-1] == pattern[cb])
+            next[i++]= ++cb;
+        else if(next[cb] == -1){
+            next[i++] = 0;
+        } else {
+             cb = next[cb];
+        }
+    }
+
+}

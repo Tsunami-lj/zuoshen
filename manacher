@@ -1,0 +1,35 @@
+
+string manacher_string(string str) {
+    string temp;
+    int index = 0;
+    for(int i = 0 ; i < str. length() * 2 + 1; i++)
+        temp[i] == (i & 1) ? str[index++] : '#';
+    return temp
+}
+
+//最长回文长度
+//三个基本概念：回文中心、回文半径、能到达的最右边界
+int max_lcps_length(string str) {
+    int C = -1;
+    int R = -1;
+
+    string now = manacher_string(str);
+    int radius[now.length()];
+    int len = -1;
+    for(int i = 0; i < now.length(); i++) {
+        radius[i] = R > i ? min(radius[2 * C - i], R - i) : 1;
+        while(i + radius[i] < now.length() && i - radius[i] > -1)
+            if(now[i + radius[i]] == now[i - radius[i]])
+                radius[i]++;
+            else
+                break;
+
+        if (i + radius[i] > R) {
+            R = i+radius[i];
+            C = i;
+        }
+        len = max (len , radius[i]);
+    }
+    return len - 1; 
+
+}
