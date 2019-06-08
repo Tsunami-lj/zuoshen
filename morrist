@@ -1,0 +1,24 @@
+当前访问节点cur，开始cur在根结点
+1、如果cur没有左孩子，cur向右移动
+2、如果cur有做孩子，找到左子树的最右节点rightMost
+    2.1 如果rightMost为空，则指向cur节点，cur向左移动
+    2.2 如果rightMost指向cur，让其指向NULL，cur向右移动
+void morrist(TreeNode* root) {
+    TreeNode *cur = root;
+    while(cur) {
+        rightMost = cur->left;
+        if(rightMost) {
+            while(rightMost != NULL && rightMost != cur) {
+                rightMost = rightMost->right;
+            }
+            if(rightMost->right == cur) {
+                rightMost->right = NULL;
+            } else {
+                rightMost->right = cur;
+                cur = cur->left;
+                continue;
+            }
+        }
+        cur = cur->right;
+    }
+}

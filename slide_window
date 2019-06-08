@@ -1,0 +1,25 @@
+/*
+维护一个双端队列，记录窗口内的最大值及其下标，实际上只要记录下标即可
+1、当L向右移动时，只需要关注当前双端队列头部记录的下标有无过期
+2、当R向右移动时，将双队列里面从尾部开始小于等于他的值全部弹出，
+因为当前的值比窗口内的其他值要大，或者过期时间要晚，可以将下标看作过期时间
+*/
+
+vector<int> getMaxWindow(vector<int>arr, int w) {
+    if(!arr || w < 1 || arr.length() < w)
+        return NULL;
+    deque<int>qmax;
+    vector<int>res;
+    int start = 0;
+    for(int i = 0; i < arr.length(); i++) {
+        while(!qmax.empty() && arr[i] >= arr[qmax.back()]) {
+            qmax.pop_back();
+        }
+        qmax.push_back(i);
+        if(qmax.front() == i - w)
+            qmax.pop_front();
+        if(i - w + 1>= 0)
+            res.push_back(qmax.front());
+    }
+    return res;
+}
