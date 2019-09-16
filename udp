@@ -1,0 +1,12 @@
+The original UDP_CHECK is configured by configuring a health check script in MISC_CHECK.
+ The checker child process performs a UDP health check on the backend through a child process
+ that is forked out. The child process waits busy after the socket is created, until the timeout,
+ or when the waiting result comes, returns the result. The new UDP_CHECK health check is via epoll,
+ and epoll will notify us of which I/O event occurred in which process. At this time, only the process
+ is checked for health check. Only the health check or the timeout will trigger the corresponding event.
+ We only need to process it in the callback function without waiting for the result in the middle.
+ In addition, on the existing basis, based on the bottleneck of the number of UDP health check,
+ only one local ip can only support more than 6w, and the ip group is developed so that it can
+ support more udp health check and target the live network. Potential performance improvement
+ points and risk avoidance points such as health check thresholds may be developed due to network
+ instability and unreachability.
